@@ -10,8 +10,8 @@ typedef struct SeqList
 	int sz;
 }SeqList, *pSeqList;
 
-
-//初始化顺序表
+//
+//  初始化顺序表
 void InitSeqList(pSeqList ps);
 
 //添加
