@@ -1,0 +1,20 @@
+﻿生成启动时间为 2018/10/9 17:23:07。
+     1>项目“F:\比特科技--李玉龙\code\数据结构\俄罗斯方块\俄罗斯方块1\俄罗斯方块1.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         F:\vs2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt Controller.c Model.c view.c
+         view.c
+         Model.c
+         Controller.c
+     1>f:\比特科技--李玉龙\code\数据结构\俄罗斯方块\俄罗斯方块1\controller.c(96): warning C4013: “main”未定义；假设外部返回 int
+     1>f:\比特科技--李玉龙\code\数据结构\俄罗斯方块\俄罗斯方块1\controller.c(116): warning C4013: “Remove”未定义；假设外部返回 int
+         正在生成代码...
+       Link:
+         F:\vs2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\比特科技--李玉龙\code\数据结构\俄罗斯方块\Debug\俄罗斯方块1.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\比特科技--李玉龙\code\数据结构\俄罗斯方块\Debug\俄罗斯方块1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\比特科技--李玉龙\code\数据结构\俄罗斯方块\Debug\俄罗斯方块1.lib" /MACHINE:X86 Debug\Controller.obj
+         Debug\Model.obj
+         Debug\view.obj
+         俄罗斯方块1.vcxproj -> F:\比特科技--李玉龙\code\数据结构\俄罗斯方块\Debug\俄罗斯方块1.exe
+     1>已完成生成项目“F:\比特科技--李玉龙\code\数据结构\俄罗斯方块\俄罗斯方块1\俄罗斯方块1.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.96
