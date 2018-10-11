@@ -6,6 +6,8 @@
 #include "time.h"
 #include "stdio.h"
 
+int n = 0;
+
 static void _Pause()
 {
 	while (1)
@@ -36,15 +38,17 @@ int pd_wall(Face* face, int nn, int space_c, int x, int y)   //判断是否到底
 }
 
 
-void go_game(Game* pGame, int nn)
+void go_game(Game* pGame)
 {
+	int nn = 0;
 	int x = FACE_X / 2 - 2;
 	int y = 0;
 	int space_c = 0; //旋转次数
-	display_kong1(nn, space_c, FACE_X + 3, 4);
-	nn = rand() % 7;
-	color(nn);
-	display_dia(nn, space_c, FACE_X + 3, 4);
+	nn = n;
+	n = rand() % 7;
+	display_kong1(FACE_X + 3, 4);
+	color(n);
+	display_dia(n, space_c, FACE_X + 3, 4);
 	while (1)
 	{
 		color(nn);
@@ -54,12 +58,12 @@ void go_game(Game* pGame, int nn)
 
 		if (pd_wall(&pGame->face, nn, space_c, x - 1, y + 1) == 1 && GetAsyncKeyState(VK_LEFT))
 		{
-			display_kong(nn, space_c, x, y);
+			display_kong(nn, space_c, x, y, pGame->face);
 			x--;
 		}
 		else if (pd_wall(&pGame->face, nn, space_c, x + 1, y + 1) == 1 && GetAsyncKeyState(VK_RIGHT))
 		{
-			display_kong(nn, space_c, x, y);
+			display_kong(nn, space_c, x, y, pGame->face);
 			x++;
 		}
 		else if (GetAsyncKeyState(VK_DOWN))
@@ -72,7 +76,7 @@ void go_game(Game* pGame, int nn)
 		}
 		else if (pd_wall(&pGame->face, nn, (space_c + 1) % 4, x + 1, y) == 1 && GetAsyncKeyState(VK_SPACE))
 		{
-			display_kong(nn, space_c, x, y);
+			display_kong(nn, space_c, x, y, pGame->face);
 			space_c = (space_c + 1) % 4;
 		}
 
@@ -99,7 +103,7 @@ void go_game(Game* pGame, int nn)
 
 		if (pd_wall(&pGame->face, nn, space_c, x, y + 1) == 1)
 		{
-			display_kong(nn, space_c, x, y);
+			display_kong(nn, space_c, x, y, pGame->face);
 			y++;
 		}
 		else
@@ -116,6 +120,8 @@ void go_game(Game* pGame, int nn)
 					}
 				}
 			}
+			color(nn);
+			display_dia(nn, space_c, x, y);
 			return;
 		}
 
@@ -226,7 +232,6 @@ int Remove(Game *pGame)
 
 int main()
 {
-	int nn;
 	system("cls");
 	system("title 俄罗斯方块");
 	color(7);
@@ -237,10 +242,10 @@ int main()
 	GameInit(&game);
 	Init_dia();
 	hide_cursor();
-	nn = rand() % 7;
+	n = rand() % 7;
 	while (1)
 	{
-		go_game(&game, nn);
+		go_game(&game);
 	}
 	return 0;
 }

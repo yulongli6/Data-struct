@@ -84,14 +84,14 @@ void display_face(Face* face, int maxscore, int score)
 }
 
 
-void display_kong(int nn, int space_c, int x, int y)
+void display_kong(int nn, int space_c, int x, int y, Face face)
 {
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
 		{
 			SetCurPos(2 * (x + j), i + y);
-			if (dia[nn][space_c].space[i][j] == 1)
+			if (dia[nn][space_c].space[i][j] == 1 && face.data[i + y][j + x] != 1)
 			{
 				printf("  ");
 			}
@@ -100,7 +100,7 @@ void display_kong(int nn, int space_c, int x, int y)
 }
 
 
-display_kong1(int nn, int space_c, int x, int y)
+display_kong1(int x, int y)
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -116,6 +116,7 @@ display_kong1(int nn, int space_c, int x, int y)
 
 void display_dia(int nn, int space_c, int x, int y)
 {
+	
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
