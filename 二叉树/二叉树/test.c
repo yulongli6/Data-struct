@@ -5,8 +5,8 @@
 int main()
 {
 	RESULT result;
-	TDataType pre_order[] = { 1, 2, 4, -1, 6 , - 1, -1, -1, 3, -1, 5, -1, -1 };
-	int size = sizeof(pre_order) / sizeof(pre_order[0]);
-	result=create_tree(pre_order,size);
+	TDataType preorder[] = { 1, 2, 4, -1, 6 , - 1, -1, -1, 3, -1, 5, -1, -1 };
+	int size = sizeof(preorder) / sizeof(preorder[0]);
+	result=create_tree(preorder,size);
 	return 0;
 }
