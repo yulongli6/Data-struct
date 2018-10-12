@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="binary_tree.h" />
     <ClInclude Include="Queue.h" />
+    <ClInclude Include="Stack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test.c" />

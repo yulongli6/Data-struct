@@ -4,6 +4,7 @@
 #include "stdlib.h"
 #include<assert.h>
 #include "Queue.h"
+#include "Stack.h"
 
 typedef int TDataType;
 
@@ -74,7 +75,7 @@ void Preorder(BNode* root)
 	}
 
 	//根
-	printf("%d", root->data);
+	printf("%d ", root->data);
 	//左子树，子问题用递归处理
 	Preorder(root->left);
 	//右子树，子问题用递归处理
@@ -94,7 +95,7 @@ void Inorder(BNode* root)
 	//左子树，子问题用递归处理
 	Inorder(root->left);
 	//根
-	printf("%d", root->data);
+	printf("%d ", root->data);
 	//右子树，子问题用递归处理
 	Inorder(root->right);
 }
@@ -114,7 +115,7 @@ void Postorder(BNode* root)
 	//右子树，子问题用递归处理
 	Postorder(root->right);
 	//根
-	printf("%d", root->data);
+	printf("%d ", root->data);
 }
 
 
@@ -208,16 +209,16 @@ BNode* Search(BNode* root,TDataType data)
 		return root;
 	}
 
-	BNode* node = Search(root->left,data);
-	if (NULL != node)
+	BNode* l_node = Search(root->left,data);
+	if (NULL != l_node)
 	{
-		return node;
+		return l_node;
 	}
 
-	BNode* node = Search(root->right, data);
-	if (NULL != node)
+	BNode* r_node = Search(root->right, data);
+	if (NULL != r_node)
 	{
-		return node;
+		return r_node;
 	}
 
 	else
@@ -244,7 +245,7 @@ void level_order(BNode* root)
 	{
 		BNode* front = QueueFront(&queue);
 		PopQueue(&queue);
-		printf("%d", root->data);
+		printf("%d ", front->data);
 		if (NULL != front->left)
 		{
 			PushQueue(&queue, front->left);
@@ -276,17 +277,193 @@ int is_not_complete_binary_tree(BNode* root)
 		{
 			break;
 		}
-		QueuePush(&queue, front->left);
-		QueuePush(&queue, front->right);
+		PushQueue(&queue, front->left);
+		PushQueue(&queue, front->right);
 	}
 	while (!QueueEmpty(&queue))
 	{
 		BNode* node = QueueFront(&queue);
-		QueuePop(&queue);
+		PopQueue(&queue);
 		if (node != NULL)
 			return 0;
 	}
 	return 1;
 	DestroyQueue(&queue);
 	return 1;
+}
+
+
+
+
+void pre_order_loop(BNode* root)
+{
+	Stack stack;
+	StackInit(&stack);
+
+	BNode* node = root;
+	BNode* top;
+	while (node != NULL || !StackEmpty(&stack))
+	{
+		while (NULL != node)
+		{
+			printf("%d ", node->data);
+			StackPush(&stack, node);   // 压栈，压的是结点地址
+			node = node->left;
+		}
+
+		top = StackTop(&stack);
+		StackPop(&stack);
+		node = top->right;
+	}
+}
+
+void in_order_loop(BNode* root)
+{
+	Stack stack;
+	StackInit(&stack);
+
+	BNode* node = root;
+	BNode* top;
+	while (node != NULL || !StackEmpty(&stack))
+	{
+		while (NULL != node)
+		{
+			StackPush(&stack, node);   // 压栈，压的是结点地址
+			node = node->left;
+		}
+
+		top = StackTop(&stack);
+		StackPop(&stack);
+		printf("%d ",top->data);
+		node = top->right;
+	}
+}
+
+
+void post_order_loop(BNode* root)
+{
+	Stack stack;
+	StackInit(&stack);
+
+	BNode* node = root;
+	BNode* top;
+	BNode* last = NULL;
+	while (node != NULL || !StackEmpty(&stack))
+	{
+		while (NULL != node)
+		{
+			StackPush(&stack, node);   // 压栈，压的是结点地址
+			node = node->left;
+		}
+
+		top = StackTop(&stack);
+		if (top->right == NULL || top->right == last)
+		{
+			printf("%d ", top->data);
+			last = top;
+			StackPop(&stack);
+		}
+		else
+			node = top->right;
+	}
+}
+
+
+//二叉树的镜像
+void Mirror(BNode* root)
+{
+	if (root == NULL) 
+	{ 
+		return; 
+	}
+	BNode *t = root->left;
+	root->left = root->right;
+	root->right = t;
+	Mirror(root->left);
+	Mirror(root->right);
+}
+
+//获取一个节点的双亲节点
+BNode* get_parents(BNode*root, BNode* node)
+{
+
+}
+//获取一个节点的左孩子节点
+
+
+//获取一个节点的右孩子节点
+
+
+//
+
+
+
+void test()
+{
+	RESULT result;
+	TDataType preorder[] = { 1, 2, 4, -1, 6, -1, -1, -1, 3, -1, 5, -1, -1 };
+	int size = sizeof(preorder) / sizeof(preorder[0]);
+	result = create_tree(preorder, size);
+	BNode* root = result.root;
+
+	printf("节点个数：%d\n", get_size(root));
+	printf("高度：%d\n", get_height(root));
+	printf("叶子个数：%d\n", get_leaf_size(root));
+	printf("第k层节点个数：%d\n", get_k_level_size(root, 3));
+	printf("查找F：%d\n", Search(root, 6)->data);
+
+	Preorder(root);printf("\n");
+	pre_order_loop(root); printf("\n");
+	Inorder(root);printf("\n");
+	in_order_loop(root); printf("\n");
+	Postorder(root);printf("\n");
+	post_order_loop(root); printf("\n");
+	level_order(root);printf("\n");
+
+	printf("%d\n", is_not_complete_binary_tree(root));
+
+	Mirror(root);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

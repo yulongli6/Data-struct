@@ -4,7 +4,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-typedef int QDataType;
+typedef void* QDataType;
 
 typedef struct QNode
 {
