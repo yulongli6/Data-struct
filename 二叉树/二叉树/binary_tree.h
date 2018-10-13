@@ -383,18 +383,205 @@ void Mirror(BNode* root)
 	Mirror(root->right);
 }
 
-//获取一个节点的双亲节点
-BNode* get_parents(BNode*root, BNode* node)
+void MirrorLoop(BNode* root)
 {
+	Stack stack;
+	StackInit(&stack);
 
+	BNode* node = root;
+	BNode* top;
+	BNode* last = NULL;
+
+	while (node != NULL || !StackEmpty(&stack))
+	{
+		while (node != NULL)
+		{
+			StackPush(&stack, node);
+			node = node->left;
+		}
+		top = StackTop(&stack);
+		if (top->right == NULL || top->right == last)
+		{
+			BNode* t = top->left;
+			top->left = top->right;
+			top->right = t;
+			last = top;
+			StackPop(&stack);
+		}
+		else
+			node = top->right;
+	
+	}
 }
+
+
+
+//获取一个节点的双亲节点
+BNode* get_parent(BNode*root, BNode* child)
+{
+	if (root==NULL || root == child)
+	{
+		return NULL;
+	}
+	if (root->left == child || root->right == child)
+	{
+		return root;
+	}
+	BNode* l_node =get_parent(root->left, child);
+	if (l_node != NULL)
+	{
+		return l_node;
+	}
+   return get_parent(root->right, child);
+	
+}
+
+
+
+
 //获取一个节点的左孩子节点
+BNode* get_left_child(BNode* root, BNode* parent)
+{
+	if (root == NULL || (root->left == NULL && root == NULL))
+	{
+		return NULL;
+	}
+	if (parent->left == NULL)
+	{
+		return NULL;
+	}
+	return parent->left;
+}
+
 
 
 //获取一个节点的右孩子节点
 
+BNode* get_right_child(BNode* root, BNode* parent)
+{
+	if (root == NULL || (root->left == NULL && root == NULL))
+	{
+		return NULL;
+	}
+	if (parent->right == NULL)
+	{
+		return NULL;
+	}
+	return parent->right;
+}
 
-//
+//求二叉树中两个节点的最近公共祖先
+BNode * get_nearest_ancestor(BNode *root, int n1, int n2)
+{
+	BNode *n1InLeft = Search(root->left, n1);
+	BNode *n2InLeft = Search(root->left, n2);
+
+	if (n1InLeft && !n2InLeft) {
+		return root;
+	}
+
+	if (!n1InLeft && n2InLeft) {
+		return root;
+	}
+
+	if (n1InLeft) {
+		return get_nearest_ancestor(root->left, n1, n2);
+	}
+	else {
+		return get_nearest_ancestor(root->right, n1, n2);
+	}
+}
+
+//判断是否是平衡二叉树
+int IsBalance(BNode* root)
+{
+	if (root == NULL)
+	{
+		return 1;
+	}
+	int isBalance = IsBalance(root->left);
+	if (isBalance == 0) 
+	{
+		return 0;
+	}
+
+	isBalance = IsBalance(root->right);
+	if (isBalance == 0) 
+	{
+		return 0;
+	}
+
+	int leftHeight = get_height(root->left);
+	int rightHeight = get_height(root->right);
+	int diff = leftHeight - rightHeight;
+	if (diff < -1 || diff > 1) 
+	{
+		return 0;
+	}
+	else 
+	{
+		return 1;
+	}
+}
+
+int IsBalance2(BNode *root, int *pHeight)
+{
+	if (root == NULL) {
+		// return 高度值
+		*pHeight = 0;
+		return 1;
+	}
+
+	int leftHeight;
+	int rightHeight;
+	int leftBalance = IsBalance2(root->left, &leftHeight);
+	int rightBalance = IsBalance2(root->right, &rightHeight);
+	// return 高度值
+	*pHeight = MAX(leftHeight, rightHeight) + 1;
+
+	if (leftBalance == 0 || rightBalance == 0) {
+		return 0;
+	}
+
+	int diff = leftHeight - rightHeight;
+	if (diff < -1 || diff > 1) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}
+
+
+int MAX3(int a, int b, int c)
+{
+	if (a >= b && a >= c) {
+		return a;
+	}
+
+	if (b >= a && b >= c) {
+		return b;
+	}
+
+	return c;
+}
+
+int GetFarrestDistance(BNode *root)
+{
+	if (root == NULL) {
+		return 0;
+	}
+
+	int leftDistance = GetFarrestDistance(root->left);
+	int rightDistance = GetFarrestDistance(root->right);
+
+	int leftHeight = get_height(root->left);
+	int rightHeight = get_height(root->right);
+	int rootDistance = leftHeight + rightHeight;
+
+	return MAX3(leftDistance, rightDistance, rootDistance);
+}
+
 
 
 
@@ -411,6 +598,7 @@ void test()
 	printf("叶子个数：%d\n", get_leaf_size(root));
 	printf("第k层节点个数：%d\n", get_k_level_size(root, 3));
 	printf("查找F：%d\n", Search(root, 6)->data);
+	
 
 	Preorder(root);printf("\n");
 	pre_order_loop(root); printf("\n");
@@ -423,47 +611,86 @@ void test()
 	printf("%d\n", is_not_complete_binary_tree(root));
 
 	Mirror(root);
+	MirrorLoop(root);
+	//找父母节点
+	BNode* child = Search(root,5);
+	BNode* parent = get_parent(root, child);
+	printf("%d\n", parent->data);
+	//左孩子
+	parent = Search(root, 1);
+	BNode* leftchild = get_left_child(root, parent);
+	printf("%d\n", leftchild->data);
+	//右孩子
+	parent = Search(root,4);
+	BNode* rightchild = get_right_child(root, parent);
+	printf("%d\n", rightchild->data);
+
+	//祖先
+	BNode* pre_order[] = { 1, 2, 4, 8, -1, -1, 9, -1, -1, 5, 10, -1, -1, 11, -1, -1, 3, 6, 12, -1, -1, 7 ,-1,-1};
+	int sz = sizeof(pre_order) / sizeof(int);
+	RESULT tree = create_tree(pre_order,sz);
+	BNode* ancestor = get_nearest_ancestor(tree.root, 9, 10);
+	printf("%d\n", ancestor->data);
+
+	//平衡
+	int height;
+	printf("是否为平衡二叉树：%d\n", IsBalance(root));
+	printf("是否为平衡二叉树：%d\n", IsBalance2(tree.root,&height));
+	//
+	printf("最远的距离：%d\n", GetFarrestDistance(root));
+}
 
 
+BNode * CreateTree2(TDataType preorder[], TDataType inorder[], int size)
+{
+	if (size <= 0) {
+		return NULL;
+	}
+
+	TDataType rootValue = preorder[0];
+	int i;
+	int r = 0;
+	for (i = 0; i < size; i++) {
+		if (inorder[i] == rootValue) {
+			r = i; break;
+		}
+	}
+	BNode *root = create_BNode(rootValue);
+	root->left = CreateTree2(preorder + 1, inorder, r);
+	root->right = CreateTree2(preorder + 1 + r, inorder + r + 1, size - 1 - r);
+
+	return root;
+}
+
+BNode * CreateTree3(TDataType postorder[], TDataType inorder[], int size)
+{
+	if (size <= 0) {
+		return NULL;
+	}
+
+	TDataType rootValue = postorder[size-1];
+	int i;
+	int r = 0;
+	for (i = 0; i < size; i++) {
+		if (inorder[i] == rootValue) {
+			r = i; break;
+		}
+	}
+	
+	BNode *root = create_BNode(rootValue);
+	root->left = CreateTree2(postorder, inorder, r);
+	root->right = CreateTree2(postorder+ r, inorder + r + 1, size - 1 - r);
+
+	return root;
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void test2()
+{
+	int preoder[] = { 1, 2, 3, 4, 5, 6, 7 };
+	int inorder[] = { 3, 2, 4, 1, 6, 7, 5 };
+	int posorder[] = { 3, 4, 2, 7, 6, 5, 1 };
+	int size = sizeof(preoder) / sizeof(int);
+	BNode*tree2 = CreateTree2(preoder, inorder, size);
+	BNode*tree3 = CreateTree3(posorder, inorder, size);
 }
