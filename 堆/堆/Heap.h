@@ -42,12 +42,15 @@ void AdjustDownBig(int array[], int size, int root)
 void AdjustDownSmall(int array[], int size, int root)
 {
 	int min = 0;
-	int left = 2 * root + 1;
-	while (left < size)
+	while (1)
 	{
 		int left = 2 * root + 1;
 		int right = 2 * root + 2;
-		if (right < size && array + right < array + left)
+		if (left >= size)
+		{
+			return;
+		}
+		if (right < size && array[right] < array[left])
 		{
 			min = right;
 		}
@@ -56,7 +59,7 @@ void AdjustDownSmall(int array[], int size, int root)
 			min = left;
 		}
 
-		if (array + root <= array + min)
+		if (array [root] <= array[min])
 		{
 			return;
 		}
@@ -134,7 +137,7 @@ void test()
 	HeapInit(&heap);
 	int array1[] = { 1, 4, 7, 2, 3, 8, 9 };
 	int array2[] = { 53, 17, 78, 9, 45, 65, 87, 23, 31 };
-	int size = sizeof(array1) / sizeof(array1[0]);
+	int size = sizeof(array1) / sizeof(int);
 	int size2 = sizeof(array2) / sizeof(int);
 	int root = 0;
 	AdjustDownBig(array1, size, root);
@@ -144,11 +147,12 @@ void test()
 		printf("%d ", array2[i]);
 	}
 	printf("\n");
-	HeapPush(&heap, 100);
-	for (int i = 0; i < size2 + 1; i++)
+	CreateHeapSmall(array2, size2);
+	for (int i = 0; i < size2; i++)
 	{
 		printf("%d ", array2[i]);
 	}
+	printf("\n");
 	
 
 }
