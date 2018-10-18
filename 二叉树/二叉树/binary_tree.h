@@ -626,7 +626,8 @@ void test()
 	printf("%d\n", rightchild->data);
 
 	//×æÏÈ
-	BNode* pre_order[] = { 1, 2, 4, 8, -1, -1, 9, -1, -1, 5, 10, -1, -1, 11, -1, -1, 3, 6, 12, -1, -1, 7 ,-1,-1};
+	BNode* pre_order[] = { 1, 2, 4, 8, -1, -1, 9, -1, -1, 5, 
+		10, -1, -1, 11, -1, -1, 3, 6, 12, -1, -1, 7 ,-1,-1};
 	int sz = sizeof(pre_order) / sizeof(int);
 	RESULT tree = create_tree(pre_order,sz);
 	BNode* ancestor = get_nearest_ancestor(tree.root, 9, 10);
