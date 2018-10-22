@@ -1,6 +1,8 @@
 #pragma once
 #include<assert.h>
 #include <string.h>
+#include "assert.h"
+#include <stdio.h>
 
 void Swap(int *a, int *b)
 {
@@ -41,22 +43,17 @@ void AdjustDownBig(int array[], int size, int root)
 
 void AdjustDownSmall(int array[], int size, int root)
 {
-	int min = 0;
-	while (1)
+	
+	while (2 * root + 1 < size)
 	{
-		int left = 2 * root + 1;
-		int right = 2 * root + 2;
-		if (left >= size)
+		int min;
+		if (2 * root + 2 < size && array[2 * root + 2] < array[2 * root + 1])
 		{
-			return;
-		}
-		if (right < size && array[right] < array[left])
-		{
-			min = right;
+			min = 2 * root + 2;
 		}
 		else
 		{
-			min = left;
+			min = 2 * root + 1;
 		}
 
 		if (array [root] <= array[min])
@@ -115,15 +112,41 @@ typedef struct Heap
 }Heap;
 
 
-void HeapInit(Heap* pH)
+void HeapInit(Heap* pH,int array[],int size)
 {
-	
+	assert(size <= 100);
+	memcpy(pH->array, array, sizeof(int)*size);
+	pH->size = size;
+
+	CreateHeapBig(pH->array, pH->size);
+}
+
+
+//È¡×îÖµ
+int HeapTop(Heap* pH)
+{
+	assert(pH->size > 0);
+	return pH->array[0];
+}
+
+//o(logn)
+void HeapPop(Heap* pH)
+{
+	assert(pH->size > 0);
+	pH->array[0] = pH->array[pH->size - 1];
+	pH->size--;
+
+	AdjustDownBig(pH->array, pH->size, 0);
 }
 
 
 void HeapPush(Heap* pH,int data)
 {
+	assert(pH->size < 100);
+	pH->array[pH->size] = data;
+	pH->size++;
 
+	AdjustUpBig(pH->array, pH->size, pH->size - 1);
 }
 
 
@@ -133,38 +156,34 @@ void HeapPush(Heap* pH,int data)
 #include <stdio.h>
 void test()
 {
-	Heap heap;
-	HeapInit(&heap);
-	int array1[] = { 1, 4, 7, 2, 3, 8, 9 };
-	int array2[] = { 53, 17, 78, 9, 45, 65, 87, 23, 31 };
-	int size = sizeof(array1) / sizeof(int);
-	int size2 = sizeof(array2) / sizeof(int);
-	int root = 0;
-	AdjustDownBig(array1, size, root);
-	CreateHeapBig(array2, size2);
-	for (int i = 0; i < size2; i++)
+	int array[] = { 53, 17, 78, 9, 45, 65, 87, 23, 31 };
+	int size = sizeof(array) / sizeof(int);
+	CreateHeapBig(array, size);
+	for (int i = 0; i < size; i++)
 	{
-		printf("%d ", array2[i]);
-	}
-	printf("\n");
-	CreateHeapSmall(array2, size2);
-	for (int i = 0; i < size2; i++)
-	{
-		printf("%d ", array2[i]);
+		printf("%d ", array[i]);
 	}
 	printf("\n");
 	
-
+	Heap heap;
+	HeapInit(&heap,array,size);
+	printf("%d\n", HeapTop(&heap));
+	HeapPush(&heap, 90);
+	printf("%d\n", HeapTop(&heap));
+	HeapPop(&heap);
+	printf("%d\n", HeapTop(&heap));
 }
+
 
 void test2()
 {
-	int array2[] = { 53, 17, 78, 9, 45, 65, 87, 23, 31 };
-	int size2 = sizeof(array2) / sizeof(int);
-	CreateHeapSmall(array2, size2);
-	for (int i = 0; i < size2; i++)
+	int array[] = { 53, 17, 78, 9, 45, 65, 87, 23, 31 };
+	int size = sizeof(array) / sizeof(int);
+	CreateHeapSmall(array, size);
+	for (int i = 0; i < size; i++)
 	{
-		printf("%d ", array2[i]);
+		printf("%d ", array[i]);
 	}
 	printf("\n");
 }
+

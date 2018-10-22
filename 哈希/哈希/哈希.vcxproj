@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{01A5F0BE-C8AE-4310-A215-A5C11F2C9D7A}</ProjectGuid>
+    <ProjectGuid>{516A5F93-FD19-4307-A258-419FEC5C5018}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>堆</RootNamespace>
+    <RootNamespace>哈希</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -78,11 +78,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Heap.h" />
-    <ClInclude Include="TopK.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Main.c" />
+    <ClInclude Include="HashBucket.h" />
+    <ClInclude Include="HashTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
