@@ -159,7 +159,7 @@ void SelectSortOP(int array[], int size)
 		Swap(array + min, array + left);
 		if (max == left)
 		{
-			max == min;
+			max = min;
 		}
 		Swap(array + right, array + max);
 		left++;
@@ -428,10 +428,38 @@ void MergeSortLoop(int array[], int size)
 }
 
 
+void CocktailSort(int array[], int size)
+{
+	int left = 0;                            // 初始化边界
+	int right = size - 1;
+	while (left < right)
+	{
+		for (int i = left; i < right; i++)   // 前半轮,将最大元素放到后面
+		{
+			if (array[i] > array[i + 1])
+			{
+				Swap(array + i, array + i + 1);
+			}
+		}
+		right--;
+		for (int i = right; i > left; i--)   // 后半轮,将最小元素放到前面
+		{
+			if (array[i - 1] > array[i])
+			{
+				Swap(array + i - 1, array + i);
+			}
+			
+		}
+		left++;
+
+	}
+}
+
+
 void test()
 {
 	int array[] = { 3, 5, 1, 4, 7, 2, 6, 0, 9, 8, 8 };
 	int size = sizeof(array) / sizeof(int);
-	MergeSortLoop(array, size);
+	CocktailSort(array, size);
 	PrintArray(array, size);
 }
