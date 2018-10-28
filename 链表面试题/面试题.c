@@ -360,7 +360,7 @@ void Merge(Node *list1, Node *list2)
 	Node* cur2 = list2;
 	Node* node;
 
-	while (cur1->next != NULL&&cur2->next != NULL)
+	while (cur1 != NULL&&cur2 != NULL)
 	{
 		if (cur1->data <= cur2->data)
 		{
@@ -388,11 +388,11 @@ void Merge(Node *list1, Node *list2)
 		//node成为最后一个节点；
 		tail = node;
 	}
-	if (cur1->next == NULL)
+	if (cur1 == NULL)
 	{
 		tail->next = cur2;
 	}
-	if (cur2->next == NULL)
+	if (cur2 == NULL)
 	{
 		tail->next = cur1;
 	}
