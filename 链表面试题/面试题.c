@@ -351,8 +351,10 @@ void TestBubbleSort()
 }
 
 //七、合并两个有序单链表，合并后依然有序
-void Merge(Node *list1, Node *list2)
+Node* Merge(Node *list1, Node *list2)
 {
+	if (!list1)return list2;
+	if (!list2)return liat1;
 	Node* result = NULL;
 	Node* tail = NULL;	// result这个链表中的最后一个结点
 
@@ -360,7 +362,7 @@ void Merge(Node *list1, Node *list2)
 	Node* cur2 = list2;
 	Node* node;
 
-	while (cur1 != NULL&&cur2 != NULL)
+	while (cur1 != NULL && cur2 != NULL)
 	{
 		if (cur1->data <= cur2->data)
 		{
@@ -388,16 +390,15 @@ void Merge(Node *list1, Node *list2)
 		//node成为最后一个节点；
 		tail = node;
 	}
-	if (cur1 == NULL)
-	{
-		tail->next = cur2;
-	}
-	if (cur2 == NULL)
+	if (cur1 != NULL)
 	{
 		tail->next = cur1;
 	}
-
-	PrintLinList(result);
+	if (cur2 != NULL)
+	{
+		tail->next = cur2;
+	}
+	return result;
 }
 
 
