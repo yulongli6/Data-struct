@@ -275,19 +275,18 @@ int is_not_complete_binary_tree(BNode* root)
 		PopQueue(&queue);
 		if (front == NULL)
 		{
-			break;
+			while (!QueueEmpty(&queue))
+			{
+				BNode* node = QueueFront(&queue);
+				PopQueue(&queue);
+				if (node != NULL)
+					return 0;
+			}
+			return 1;
 		}
 		PushQueue(&queue, front->left);
 		PushQueue(&queue, front->right);
 	}
-	while (!QueueEmpty(&queue))
-	{
-		BNode* node = QueueFront(&queue);
-		PopQueue(&queue);
-		if (node != NULL)
-			return 0;
-	}
-	return 1;
 	DestroyQueue(&queue);
 	return 1;
 }
