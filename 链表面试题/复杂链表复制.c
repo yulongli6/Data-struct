@@ -83,7 +83,7 @@ void CopyComplexList(CN* list)
 			newNext = NULL;
 		}
 		cur->next = Next;
-		newnode->next = Next;
+		newnode->next = newNext;
 
 		cur = cur->next;
 
